@@ -9,12 +9,13 @@ import { Logo, homes } from '../components/Shell';
 import { Banner, Button, Card, Input, PageHeader } from '../components/ui';
 import { ClaimList } from './Claims';
 
-export function Auth({ mode = 'sign-in' }) {
+export function Auth({ mode = 'sign-in', unavailable = false }) {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [busy, setBusy] = useState(false);
   async function submit(event) {
     event.preventDefault();
+    if (unavailable) return;
     setBusy(true);
     setError(null);
     const values = Object.fromEntries(new FormData(event.currentTarget));
@@ -79,6 +80,14 @@ export function Auth({ mode = 'sign-in' }) {
           <span className="eyebrow">WELCOME TO ASSUREX</span>
           <h1>{mode === 'register' ? 'Create your workspace.' : 'Welcome back.'}</h1>
           <p>Sign in to manage your products, evidence and claims.</p>
+          {unavailable && (
+            <div role="status" className="auth-demo-note">
+              Sign-in is temporarily unavailable. Please try again later.
+              <button type="button" onClick={() => window.location.reload()}>
+                Retry connection
+              </button>
+            </div>
+          )}
           {['sign-in', 'register'].includes(mode) ? (
             <form onSubmit={submit}>
               {mode === 'register' && (
@@ -101,7 +110,7 @@ export function Auth({ mode = 'sign-in' }) {
                 autoComplete={mode === 'register' ? 'new-password' : 'current-password'}
               />
               <ErrorMessage error={error} />
-              <Button type="submit" disabled={busy} className="full-width">
+              <Button type="submit" disabled={busy || unavailable} className="full-width">
                 {busy ? 'Connecting…' : mode === 'register' ? 'Create account' : 'Login'}
                 <ArrowRight size={17} />
               </Button>

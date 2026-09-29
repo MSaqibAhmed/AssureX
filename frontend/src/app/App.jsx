@@ -5,7 +5,6 @@ import Shell, { homes } from '../components/Shell';
 import { Notifications, Reports, Account, Help, Auth, SystemPage } from '../pages/Shared';
 import { api } from '../api/client';
 import { acceptSession, actions, store } from './store';
-import { ErrorMessage } from '../api/hooks';
 
 const Dashboard = lazy(() => import('../pages/Dashboard'));
 const products = () => import('../pages/Products');
@@ -121,7 +120,10 @@ export default function App() {
       .catch((error) => {
         if (!active) return;
         if (error.status === 401) store.dispatch(actions.signedOut());
-        else setBootError(error);
+        else {
+          setBootError(error);
+          store.dispatch(actions.signedOut());
+        }
       });
     const auth = (event) => {
       if (event.detail === 401) {
@@ -135,19 +137,15 @@ export default function App() {
       window.removeEventListener('api-auth', auth);
     };
   }, [navigate]);
-  if (bootError)
-    return (
-      <main>
-        <ErrorMessage error={bootError} />
-        <button onClick={() => window.location.reload()}>Retry connection</button>
-      </main>
-    );
   if (!ready) return <LoadingScreen />;
   return (
     <Suspense fallback={<LoadingScreen />}>
       <Routes>
-        <Route path="sign-in" element={<Auth key="sign-in" />} />
-        <Route path="register" element={<Auth key="register" mode="register" />} />
+        <Route path="sign-in" element={<Auth key="sign-in" unavailable={!!bootError} />} />
+        <Route
+          path="register"
+          element={<Auth key="register" mode="register" unavailable={!!bootError} />}
+        />
         <Route element={<AuthGuard />}>
           <Route index element={<Home />} />
           <Route element={<RoleGuard role="customer" />}>
