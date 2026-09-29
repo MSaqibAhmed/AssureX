@@ -1,0 +1,3 @@
+# Windows setup entry point. See UserManual/USER-MANUAL.txt.
+# Recovered installed versions; fresh installation remains unverified.
+-r requirements.windows.lock.txt

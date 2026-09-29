@@ -1,0 +1,282 @@
+[
+  {
+    "role": "admin",
+    "path": "/me",
+    "status": 200
+  },
+  {
+    "role": "admin",
+    "path": "/dashboard",
+    "status": 200
+  },
+  {
+    "role": "admin",
+    "path": "/reports",
+    "status": 200
+  },
+  {
+    "role": "admin",
+    "path": "/notifications",
+    "status": 200
+  },
+  {
+    "role": "admin",
+    "path": "/policies",
+    "status": 200
+  },
+  {
+    "role": "admin",
+    "path": "/admin/models",
+    "status": 200
+  },
+  {
+    "role": "admin",
+    "path": "/admin/users",
+    "status": 200
+  },
+  {
+    "role": "admin",
+    "path": "/admin/service-centers",
+    "status": 200
+  },
+  {
+    "role": "admin",
+    "path": "/admin/audit",
+    "status": 200
+  },
+  {
+    "role": "admin",
+    "path": "/claims/fc33d143-2ade-4ae1-b8c0-fb53d55146ef",
+    "status": 200
+  },
+  {
+    "role": "admin",
+    "path": "/claims/fc33d143-2ade-4ae1-b8c0-fb53d55146ef/workflow",
+    "status": 200
+  },
+  {
+    "role": "admin",
+    "path": "/claims/fc33d143-2ade-4ae1-b8c0-fb53d55146ef/documents",
+    "status": 200
+  },
+  {
+    "role": "admin",
+    "path": "/claims/fc33d143-2ade-4ae1-b8c0-fb53d55146ef/evaluations",
+    "status": 200
+  },
+  {
+    "role": "admin",
+    "path": "/claims/fc33d143-2ade-4ae1-b8c0-fb53d55146ef/assistance",
+    "status": 200
+  },
+  {
+    "role": "admin",
+    "path": "/claims/fc33d143-2ade-4ae1-b8c0-fb53d55146ef/comments",
+    "status": 200
+  },
+  {
+    "role": "admin",
+    "path": "/products/ce338d92-64b7-4bf9-897e-a7497132c157/service-history",
+    "status": 200
+  },
+  {
+    "role": "customer",
+    "path": "/me",
+    "status": 200
+  },
+  {
+    "role": "customer",
+    "path": "/dashboard",
+    "status": 200
+  },
+  {
+    "role": "customer",
+    "path": "/reports",
+    "status": 200
+  },
+  {
+    "role": "customer",
+    "path": "/notifications",
+    "status": 200
+  },
+  {
+    "role": "customer",
+    "path": "/policies",
+    "status": 200
+  },
+  {
+    "role": "customer",
+    "path": "/products",
+    "status": 200
+  },
+  {
+    "role": "customer",
+    "path": "/documents",
+    "status": 200
+  },
+  {
+    "role": "customer",
+    "path": "/claims/6ad32088-5141-4ab9-a97a-da01ef59d965",
+    "status": 200
+  },
+  {
+    "role": "customer",
+    "path": "/claims/6ad32088-5141-4ab9-a97a-da01ef59d965/workflow",
+    "status": 200
+  },
+  {
+    "role": "customer",
+    "path": "/claims/6ad32088-5141-4ab9-a97a-da01ef59d965/documents",
+    "status": 200
+  },
+  {
+    "role": "customer",
+    "path": "/claims/6ad32088-5141-4ab9-a97a-da01ef59d965/evaluations",
+    "status": 200
+  },
+  {
+    "role": "customer",
+    "path": "/claims/6ad32088-5141-4ab9-a97a-da01ef59d965/assistance",
+    "status": 200
+  },
+  {
+    "role": "customer",
+    "path": "/claims/6ad32088-5141-4ab9-a97a-da01ef59d965/comments",
+    "status": 200
+  },
+  {
+    "role": "customer",
+    "path": "/products/b5221443-cdb0-4798-b993-3034c9809782/service-history",
+    "status": 200
+  },
+  {
+    "role": "reviewer",
+    "path": "/me",
+    "status": 200
+  },
+  {
+    "role": "reviewer",
+    "path": "/dashboard",
+    "status": 200
+  },
+  {
+    "role": "reviewer",
+    "path": "/reports",
+    "status": 200
+  },
+  {
+    "role": "reviewer",
+    "path": "/notifications",
+    "status": 200
+  },
+  {
+    "role": "reviewer",
+    "path": "/policies",
+    "status": 200
+  },
+  {
+    "role": "reviewer",
+    "path": "/claims/6ad32088-5141-4ab9-a97a-da01ef59d965",
+    "status": 200
+  },
+  {
+    "role": "reviewer",
+    "path": "/claims/6ad32088-5141-4ab9-a97a-da01ef59d965/workflow",
+    "status": 200
+  },
+  {
+    "role": "reviewer",
+    "path": "/claims/6ad32088-5141-4ab9-a97a-da01ef59d965/documents",
+    "status": 200
+  },
+  {
+    "role": "reviewer",
+    "path": "/claims/6ad32088-5141-4ab9-a97a-da01ef59d965/evaluations",
+    "status": 200
+  },
+  {
+    "role": "reviewer",
+    "path": "/claims/6ad32088-5141-4ab9-a97a-da01ef59d965/assistance",
+    "status": 200
+  },
+  {
+    "role": "reviewer",
+    "path": "/claims/6ad32088-5141-4ab9-a97a-da01ef59d965/comments",
+    "status": 200
+  },
+  {
+    "role": "reviewer",
+    "path": "/products/b5221443-cdb0-4798-b993-3034c9809782/service-history",
+    "status": 200
+  },
+  {
+    "role": "service",
+    "path": "/me",
+    "status": 200
+  },
+  {
+    "role": "service",
+    "path": "/dashboard",
+    "status": 200
+  },
+  {
+    "role": "service",
+    "path": "/reports",
+    "status": 200
+  },
+  {
+    "role": "service",
+    "path": "/notifications",
+    "status": 200
+  },
+  {
+    "role": "service",
+    "path": "/policies",
+    "status": 200
+  },
+  {
+    "role": "service",
+    "path": "/service-history",
+    "status": 200
+  },
+  {
+    "role": "service",
+    "path": "/products",
+    "status": 200
+  },
+  {
+    "role": "service",
+    "path": "/claims/fc33d143-2ade-4ae1-b8c0-fb53d55146ef",
+    "status": 200
+  },
+  {
+    "role": "service",
+    "path": "/claims/fc33d143-2ade-4ae1-b8c0-fb53d55146ef/workflow",
+    "status": 200
+  },
+  {
+    "role": "service",
+    "path": "/claims/fc33d143-2ade-4ae1-b8c0-fb53d55146ef/documents",
+    "status": 200
+  },
+  {
+    "role": "service",
+    "path": "/claims/fc33d143-2ade-4ae1-b8c0-fb53d55146ef/evaluations",
+    "status": 200
+  },
+  {
+    "role": "service",
+    "path": "/claims/fc33d143-2ade-4ae1-b8c0-fb53d55146ef/assistance",
+    "status": 200
+  },
+  {
+    "role": "service",
+    "path": "/claims/fc33d143-2ade-4ae1-b8c0-fb53d55146ef/comments",
+    "status": 200
+  },
+  {
+    "role": "service",
+    "path": "/products/ce338d92-64b7-4bf9-897e-a7497132c157/service-history",
+    "status": 200
+  }
+]

@@ -1,0 +1,25 @@
+vite v8.3.1 building client environment for production...
+transforming...
+✓ 1981 modules transformed.
+rendering chunks...
+computing gzip size...
+tmp/integration-dist/index.html                                        0.69 kB │ gzip:   0.41 kB
+tmp/integration-dist/assets/poppins-latin-500-normal-C8OXljZJ.woff2    7.74 kB
+tmp/integration-dist/assets/poppins-latin-700-normal-Qrb0O0WB.woff2    7.81 kB
+tmp/integration-dist/assets/poppins-latin-400-normal-cpxAROuN.woff2    7.88 kB
+tmp/integration-dist/assets/poppins-latin-600-normal-zEkxB9Mr.woff2    8.00 kB
+tmp/integration-dist/assets/poppins-latin-500-normal-DGXqpDMm.woff    10.37 kB
+tmp/integration-dist/assets/poppins-latin-700-normal-BVuQR_eA.woff    10.43 kB
+tmp/integration-dist/assets/poppins-latin-400-normal-BOb3E3N0.woff    10.53 kB
+tmp/integration-dist/assets/poppins-latin-600-normal-BJdTmd5m.woff    10.60 kB
+tmp/integration-dist/assets/index-t4Urzo3V.css                        86.48 kB │ gzip:  17.99 kB
+tmp/integration-dist/assets/Staff-eOdnEjpR.js                          2.07 kB │ gzip:   0.93 kB
+tmp/integration-dist/assets/Records-BVn1liiM.js                        3.43 kB │ gzip:   1.45 kB
+tmp/integration-dist/assets/Dashboard-Bea4yc04.js                      4.87 kB │ gzip:   1.69 kB
+tmp/integration-dist/assets/Products-BDCaTDnT.js                       5.64 kB │ gzip:   1.94 kB
+tmp/integration-dist/assets/Admin-BFID6M3I.js                          9.22 kB │ gzip:   2.89 kB
+tmp/integration-dist/assets/index-BY0qlyjS.js                        431.70 kB │ gzip: 137.35 kB
+
+[33m[INEFFECTIVE_DYNAMIC_IMPORT] [0msrc/pages/Claims.jsx is dynamically imported by src/app/App.jsx but also statically imported by src/pages/Dashboard.jsx, src/pages/Records.jsx, src/pages/Shared.jsx, src/pages/Staff.jsx, dynamic import will not move module into another chunk.
+
+✓ built in 2.14s

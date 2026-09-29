@@ -1,0 +1,30 @@
+{
+  "scope": "Sequential real HTTP upload-complete through OCR, automatic correction calls, submit, RQ inference and committed evaluation; summary drained between samples",
+  "cold_ms": [
+    23561.394199961796,
+    18475.926300045103,
+    23687.334200018086
+  ],
+  "warm_ms": [
+    2495.2408000826836,
+    3331.261699902825,
+    4279.424599953927,
+    3844.5177000248805,
+    4191.277000005357
+  ],
+  "model_failures": 0,
+  "cold": {
+    "samples": 3,
+    "p50_ms": 23561.394199961796,
+    "p95_ms": 23674.740200012457,
+    "max_ms": 23687.334200018086
+  },
+  "warm": {
+    "samples": 5,
+    "p50_ms": 3844.5177000248805,
+    "p95_ms": 4261.795079964213,
+    "max_ms": 4279.424599953927
+  },
+  "five_second_target_met": true,
+  "cold_target_met": false
+}

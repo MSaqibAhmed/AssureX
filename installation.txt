@@ -1,0 +1,283 @@
+ASSUREX INSTALLATION AND RUN GUIDE - ATLAS TARGET
+Windows Command Prompt (CMD) | Updated 29 September 2026
+
+STATUS: Atlas cutover is NOT complete or verified.
+Selected target: Project 0 / Cluster0
+Host: cluster0.t0yoj9e.mongodb.net
+Planned application database: assurex
+Last check: cluster paused; plugin has read-only access. Resume failed.
+Existing application configuration still uses local MongoDB.
+The following Atlas steps apply AFTER access and credentials are ready.
+Updating this guide does not change the running application's database.
+
+FOLDERS
+Frontend: D:\Techwiz\Team-QuantumMinds\Sorce File\frontend
+Backend:  D:\Techwiz\Team-QuantumMinds\Sorce File\backend
+
+Use CMD, not PowerShell. Each section states its working folder.
+Run installation commands individually; stop on failure.
+Stop existing API, dispatcher and workers before the actual cutover, after
+active jobs finish. Do not run old local workers alongside Atlas workers.
+Preserve local database folders and private\dev-evidence for migration.
+
+1. REQUIREMENTS - ANY CMD WINDOW
+======================================================================
+Node.js 22.22.0 or newer, npm, and Python 3.12 (64-bit) are required.
+Node.js and a compatible bundled Python are already present on this PC.
+
+node --version
+npm --version
+"C:\Users\kkt\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe" --version
+
+The final command should show Python 3.12.x. Do not use the default Python
+3.14 for this project's environment. On another computer, install Python
+3.12 and use: py -3.12 -m venv .venv
+
+======================================================================
+2. INSTALL BACKEND DEPENDENCIES - BACKEND FOLDER - ONCE
+======================================================================
+Open a CMD window and run:
+
+cd /d "D:\Techwiz\Team-QuantumMinds\Sorce File\backend"
+set "PYTHONPATH="
+"C:\Users\kkt\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe" -m venv .venv
+call .venv\Scripts\activate.bat
+python --version
+python -m pip install --upgrade pip setuptools wheel
+python -m pip install -r requirements.txt
+python -m pip check
+
+Expected pip check result: No broken requirements found.
+The venv creation command refreshes the broken interpreter reference in
+this copied environment. It does not delete the database or evidence.
+TensorFlow/PyTorch and other ML dependencies can take time to install.
+requirements.txt includes requirements.windows.lock.txt. These versions
+were recovered from the supplied environment; a clean installation has
+not been verified. If pip fails, keep its error output and resolve that
+failure before continuing. Do not assume installation completed.
+
+If Python still reports the old C:\Users\HP path, close all Python
+services first. Preserve the old environment, then repeat this section:
+
+cd /d "D:\Techwiz\Team-QuantumMinds\Sorce File\backend"
+ren .venv .venv-backup-%RANDOM%
+
+======================================================================
+3. INSTALL FRONTEND DEPENDENCIES - FRONTEND FOLDER - ONCE
+======================================================================
+Open a separate CMD window and run:
+
+cd /d "D:\Techwiz\Team-QuantumMinds\Sorce File\frontend"
+npm ci
+if not exist .env.local echo VITE_API_BASE_URL=/api/v1>.env.local
+
+npm ci installs the versions in package-lock.json into node_modules.
+If .env.local already exists, check that it contains this setting:
+VITE_API_BASE_URL=/api/v1
+That setting is file content, not a CMD command.
+
+If npm ci reports EPERM or Access is denied in existing node_modules,
+stop the frontend first. Preserve the old folder and retry:
+
+cd /d "D:\Techwiz\Team-QuantumMinds\Sorce File\frontend"
+ren node_modules node_modules-backup-%RANDOM%
+npm ci
+
+If the rename itself fails, resolve the folder permissions or file lock;
+do not delete database folders or use broad permission-reset commands.
+
+======================================================================
+4. CHECK SUPPLIED TOOLS - BACKEND FOLDER
+======================================================================
+The complete project already includes MongoDB, Redis, OCR tools and models.
+pip/npm do not install these native tools or generate trained models.
+
+cd /d "D:\Techwiz\Team-QuantumMinds\Sorce File\backend"
+dir "private\test-tools\mongodb-win32-x86_64-windows-8.0.17\bin\mongod.exe"
+dir "private\test-tools\redis\Redis-7.4.9-Windows-x64-msys2\redis-server.exe"
+dir "private\test-tools\ocr-env\Library\bin\tesseract.exe"
+dir "private\test-tools\ocr-env\share\tessdata\eng.traineddata"
+dir "artifacts\python\pipeline.joblib"
+dir "artifacts\gtm\model.keras"
+dir "artifacts\gtm\labels.json"
+dir "private\test-tools\dev-data-runtime-1790656318"
+dir "private\test-tools\dev-redis-runtime-1790656318"
+
+If a file/folder is missing, restore it from the complete project copy.
+Do not create an empty replacement for the existing database directory.
+Scanned PDF processing also requires Poppler. From the backend CMD:
+
+set "PATH=%CD%\private\test-tools\ocr-env\Library\bin;%PATH%"
+pdfinfo -v
+pdftoppm -v
+
+If Poppler is missing, install a Windows Poppler distribution, then add
+its actual bin folder to PATH before launching backend and workers:
+
+set /p "POPPLER_BIN=Enter full Poppler bin folder: "
+set "PATH=%POPPLER_BIN%;%PATH%"
+pdfinfo -v
+pdftoppm -v
+
+======================================================================
+5. ATLAS ACCESS AND CONFIGURATION - BACKEND FOLDER
+======================================================================
+A. In Atlas, choose Project 0, not hotel_management.
+   Organization Settings > App Connections: an Organization Owner must
+   allow AI client Read and Write access if using the Atlas plugin to
+   configure the cluster. Resume Project 0 / Cluster0 in the Atlas UI.
+   Wait until it is available. Plugin access does not automatically give
+   the Python backend database credentials.
+
+B. Create a database user scoped to Cluster0 and database assurex.
+   Runtime needs readWrite. Schema initialization also uses collMod;
+   the setup account needs dbAdmin on assurex. Avoid atlasAdmin or roles
+   over every database. Add only this computer's public IP to the Atlas
+   project network access list; do not allow all IPs just for setup.
+
+C. Use Cluster0 > Connect > Drivers > Python for the connection string.
+   Use the database user's password, not your Atlas website password.
+   URL-encode special characters in URI credentials. Never put the URI
+   in frontend files or share it in screenshots, logs or documentation.
+
+D. Store credentials in backend\private\atlas.env, which is covered by
+   the current backend .gitignore private/ rule. The existing .env is
+   explicitly NOT ignored, so do not store Atlas secrets there.
+
+cd /d "D:\Techwiz\Team-QuantumMinds\Sorce File\backend"
+if not exist private mkdir private
+notepad private\atlas.env
+
+In the editor, save these lines with your actual encoded credentials.
+These are FILE CONTENT, not CMD commands:
+
+MONGO_URI=mongodb+srv://ENCODED_USER:ENCODED_PASSWORD@cluster0.t0yoj9e.mongodb.net/?retryWrites=true&w=majority
+MONGO_DATABASE=assurex
+REDIS_URL=redis://127.0.0.1:6380/1
+COOKIE_SECURE=false
+CORS_ORIGINS=["http://127.0.0.1:5173"]
+EVIDENCE_ROOT=./private/dev-evidence
+ARTIFACT_ROOT=./artifacts
+SUMMARY_MODEL=./artifacts/summary
+
+Redis database 1 separates the Atlas queue from old local queue database
+0. Keep API, dispatcher and worker on the same Atlas URI and Redis DB.
+The API, Redis, models and uploads remain on this computer. Atlas hosts
+MongoDB records; it does not host the frontend, Redis or uploaded files.
+
+======================================================================
+6. PREPARE AND VERIFY ATLAS - BACKEND FOLDER - CMD WINDOW 1
+======================================================================
+Complete section 5 first. Do not proceed on failed checks.
+
+cd /d "D:\Techwiz\Team-QuantumMinds\Sorce File\backend"
+call .venv\Scripts\activate.bat
+set "PYTHONPATH="
+for /f "delims=" %S in ('python -c "import secrets; print(secrets.token_hex(32))"') do set "SESSION_SECRET=%S"
+python -c "from dotenv import load_dotenv; load_dotenv('private/atlas.env',override=True); from src.config import Settings; from pymongo import MongoClient; s=Settings(); assert s.mongo_uri.startswith('mongodb+srv://') and '@cluster0.t0yoj9e.mongodb.net/' in s.mongo_uri, 'Wrong Atlas target'; c=MongoClient(s.mongo_uri,serverSelectionTimeoutMS=15000); print('Atlas ping:',c.admin.command('ping')['ok']); print('Database:',s.mongo_database); c.close()"
+
+Expected: Atlas ping: 1.0 and Database: assurex.
+A successful ping checks connectivity; sign-in and a saved record must
+also be tested after startup to verify the application's actual access.
+
+DATA CHOICE BEFORE INITIALIZATION
+Existing local users, passwords, products and claims do NOT move merely
+by changing the URI. Migration is pending. If keeping those records,
+complete and verify a migration before seeding or switching the app.
+Do not overwrite an existing Atlas database or remove the local copy.
+Keep private\dev-evidence: migrated document records reference its files.
+
+ONLY FOR A NEW EMPTY ATLAS DATABASE (not a migration):
+The following seeds demo identities, policies, model references and schema.
+It creates missing records; existing account passwords are not reset.
+Choose a private demo password of at least 12 characters when prompted.
+
+python -c "from dotenv import load_dotenv; load_dotenv('private/atlas.env',override=True); import os,runpy,getpass; os.environ['DEMO_PASSWORD']=getpass.getpass('New demo password (12+ characters): '); runpy.run_module('database.seed_demo',run_name='__main__')"
+
+Demo logins: customer@example.com, reviewer@example.com,
+admin@example.com, service@example.com. Use the password you entered.
+Do not put that password in this guide.
+
+======================================================================
+7. RUN REDIS - BACKEND TOOL FOLDER - SEPARATE CMD WINDOW
+======================================================================
+Skip if Redis is already running on port 6380. Atlas does not replace it.
+
+cd /d "D:\Techwiz\Team-QuantumMinds\Sorce File\backend\private\test-tools\redis\Redis-7.4.9-Windows-x64-msys2"
+redis-server.exe --bind 127.0.0.1 --port 6380 --appendonly yes --dir "D:\Techwiz\Team-QuantumMinds\Sorce File\backend\private\test-tools\dev-redis-runtime-1790656318"
+
+Leave this window open. The directory is the existing writable copy on
+this PC. Restore it from the project package if moving to another PC.
+No local mongod process is needed for the Atlas setup.
+
+======================================================================
+8. RUN ATLAS BACKEND + WORKERS - BACKEND FOLDER - CMD WINDOW 1
+======================================================================
+Only after successful Atlas setup, data preparation and Redis startup.
+Stop the previous local API/dispatcher/worker before running this command.
+Use the same CMD as section 6, or run all of the following setup again.
+If Poppler required an extra PATH entry, include it in this CMD too.
+
+cd /d "D:\Techwiz\Team-QuantumMinds\Sorce File\backend"
+call .venv\Scripts\activate.bat
+set "PYTHONPATH="
+set "TESSDATA_PREFIX=%CD%\private\test-tools\ocr-env\share\tessdata"
+set "PATH=%CD%\private\test-tools\ocr-env\Library\bin;%PATH%"
+for /f "delims=" %S in ('python -c "import secrets; print(secrets.token_hex(32))"') do set "SESSION_SECRET=%S"
+python -c "from dotenv import load_dotenv; assert load_dotenv('private/atlas.env',override=True), 'Configure private/atlas.env first'; from src.config import Settings; from pymongo import MongoClient; from redis import Redis; import subprocess,sys,uvicorn; s=Settings(); assert s.mongo_uri.startswith('mongodb+srv://') and '@cluster0.t0yoj9e.mongodb.net/' in s.mongo_uri, 'Wrong Atlas target'; c=MongoClient(s.mongo_uri,serverSelectionTimeoutMS=15000); c.admin.command('ping'); c.close(); Redis.from_url(s.redis_url,socket_connect_timeout=5).ping(); subprocess.Popen([sys.executable,'-m','src.jobs.dispatcher'],creationflags=subprocess.CREATE_NEW_CONSOLE); subprocess.Popen([sys.executable,'-m','src.jobs.worker'],creationflags=subprocess.CREATE_NEW_CONSOLE); uvicorn.run('src.main:app',host='127.0.0.1',port=8000,access_log=False)"
+
+This explicitly loads the private Atlas settings and passes the same
+environment to both worker processes. Keep all three windows open.
+Do NOT run python -m database.start_local_dev for Atlas: that launcher
+hard-codes local MongoDB and overrides Atlas settings.
+A new session secret requires signing in again after a restart.
+Interactive CMD uses %S above; a .bat file needs %%S in both places.
+
+======================================================================
+9. RUN FRONTEND - FRONTEND FOLDER - NEW CMD WINDOW
+======================================================================
+cd /d "D:\Techwiz\Team-QuantumMinds\Sorce File\frontend"
+node --input-type=module -e "import {createServer} from 'vite'; import os from 'node:os'; import path from 'node:path'; const server = await createServer({cacheDir:path.join(os.tmpdir(),'assurex-vite-'+process.pid),server:{host:'127.0.0.1',port:5173,strictPort:true}}); await server.listen(); server.printUrls();"
+
+Keep frontend .env.local as VITE_API_BASE_URL=/api/v1.
+The browser calls the backend, and only the backend connects to Atlas.
+The temporary cache avoids the old Vite cache permissions issue.
+
+======================================================================
+10. VERIFY, STOP AND RESTART
+======================================================================
+Frontend: http://127.0.0.1:5173
+Sign in:  http://127.0.0.1:5173/sign-in
+API docs: http://127.0.0.1:8000/docs
+
+curl -f -o NUL http://127.0.0.1:5173/
+curl -f -o NUL http://127.0.0.1:8000/openapi.json
+
+After cutover, sign in and save a product. Verify that record in Atlas:
+Project 0 > Cluster0 > Browse Collections > assurex > products.
+Then verify a document-processing job to check Redis and the workers.
+A working /docs page alone does not prove database connectivity.
+
+Stop dispatcher and worker first after active jobs finish, then API and
+frontend, using Ctrl+C in their own windows. Stop local Redis with Ctrl+C
+if no other process needs it. Atlas remains running in the cloud.
+Closing the API does not automatically close the separate worker windows.
+On future starts repeat sections 7, 8 and 9; do not reinstall or reseed.
+
+Troubleshooting:
+- Authentication failed: verify database user, password encoding and roles.
+- Server timeout: check cluster resumed, DNS/network and allowed public IP.
+- Plugin read-only: adjust organization AI access; backend still needs its
+  own database user even if the plugin connects successfully.
+- Queued work: ensure Redis, dispatcher and worker all run on Redis DB 1.
+- Port in use: inspect the existing process before starting another one.
+- Missing accounts after switching: migration/seeding may not be complete.
+- Never put Atlas credentials into VITE_* variables or tracked .env files.
+
+Official Atlas AI access guide:
+https://www.mongodb.com/docs/mcp-server/remote-mcp/manage-ai-client-access/
+
+VERIFICATION STATUS
+Commands were reviewed against this project's source. Atlas connectivity,
+cutover and data migration are still pending. Dependency reinstallation
+and a fresh-machine run were not performed during this documentation edit.

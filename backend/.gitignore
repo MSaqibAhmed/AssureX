@@ -1,0 +1,12 @@
+.venv/
+venv/
+__pycache__/
+.pytest_cache/
+.coverage
+private/
+data/
+artifacts/
+htmlcov/
+# Keep environment files included, as requested.
+!.env
+!.env.*

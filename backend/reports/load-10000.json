@@ -1,0 +1,21 @@
+{
+  "scope": "Real HTTP scoped reports/dashboard, local Mongo replica set; excludes model inference",
+  "concurrency": 20,
+  "claims": 10000,
+  "users": 100,
+  "baseline_100": {
+    "samples": 200,
+    "p50_ms": 1279.5983499381691,
+    "p95_ms": 3578.466689964984,
+    "max_ms": 6290.913700009696
+  },
+  "load_10000": {
+    "samples": 200,
+    "p50_ms": 1105.4682500544004,
+    "p95_ms": 3105.2033199579437,
+    "max_ms": 4382.691700011492
+  },
+  "p95_ratio": 0.8677468840679159,
+  "http_requests": 800,
+  "errors": 0
+}

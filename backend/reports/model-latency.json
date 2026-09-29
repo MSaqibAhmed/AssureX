@@ -1,0 +1,16 @@
+{
+  "scope": "Offline two-model inference plus card rendering; no OCR, queue, MongoDB, summary or network",
+  "cold": {
+    "p50_ms": 16462.482300004922,
+    "p95_ms": 16462.482300004922,
+    "max_ms": 16462.482300004922,
+    "samples": 1
+  },
+  "warm": {
+    "p50_ms": 116.98719998821616,
+    "p95_ms": 204.51296999235637,
+    "max_ms": 273.06030003819615,
+    "samples": 30
+  },
+  "end_to_end_target_verified": false
+}

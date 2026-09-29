@@ -1,0 +1,15 @@
+{
+  "model_version": "E:\\Aptech\\Techwiz\\Contest\\assurex-backend\\artifacts\\summary",
+  "prompt_version": "1.0",
+  "input_hash": "8410bdfccef2cd0cebe4615e93827af18aa994fd28e53a857c6da0b45c0b3dd5",
+  "text": "product_category: mobile; fault_category: display; purchase_date: 2026-01-01; fault_date: 2026-02-01; serial_status: match; repair_count: 0",
+  "source": "fallback",
+  "quality_flags": [
+    "grounding_rejected"
+  ],
+  "elapsed_ms": 27120.13,
+  "wall_elapsed_ms": 27457.375500001945,
+  "test_budget_seconds": 120,
+  "production_budget_seconds": 30,
+  "within_production_budget": true
+}

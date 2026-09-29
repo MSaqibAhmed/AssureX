@@ -1,0 +1,1 @@
+{"category":"appliances","version":"1.0","coverage_months":24,"reporting_days":45,"grace_days":0,"reminder_window":30,"excluded_damage":["commercial","consumable"],"required_documents":["receipt","serial_photo"],"require_authorized_repairs":true,"covered_fault_categories":["heating","mechanical","electrical"]}

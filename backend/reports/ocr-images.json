@@ -1,0 +1,47 @@
+{
+  "clean": {
+    "correct_fields": 8,
+    "total_fields": 8,
+    "fields": {
+      "purchase_date": "2026-01-10",
+      "invoice_number": "INV-42",
+      "product": "Phone",
+      "model": "M1",
+      "serial": "AB123",
+      "retailer": "Sample Store",
+      "amount": "899.00",
+      "warranty_duration": "12"
+    },
+    "elapsed_ms": 681.3698999903863
+  },
+  "rotated": {
+    "correct_fields": 8,
+    "total_fields": 8,
+    "fields": {
+      "purchase_date": "2026-01-10",
+      "invoice_number": "INV-42",
+      "product": "Phone",
+      "model": "M1",
+      "serial": "AB123",
+      "retailer": "Sample Store",
+      "amount": "899.00",
+      "warranty_duration": "12"
+    },
+    "elapsed_ms": 1021.8871999968542
+  },
+  "blurry": {
+    "correct_fields": 8,
+    "total_fields": 8,
+    "fields": {
+      "purchase_date": "2026-01-10",
+      "invoice_number": "INV-42",
+      "product": "Phone",
+      "model": "M1",
+      "serial": "AB123",
+      "retailer": "Sample Store",
+      "amount": "899.00",
+      "warranty_duration": "12"
+    },
+    "elapsed_ms": 635.9443999972427
+  }
+}

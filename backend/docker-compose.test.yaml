@@ -1,0 +1,17 @@
+# Disposable local infrastructure for transaction/queue tests only.
+# Production docker-compose.yaml continues to use external Atlas.
+services:
+  mongo-test:
+    image: mongo:8
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all"]
+    ports: ["127.0.0.1:27018:27017"]
+    tmpfs: ["/data/db"]
+    healthcheck:
+      test: ["CMD-SHELL", "mongosh --quiet --eval 'try { rs.status().ok } catch(e) { rs.initiate({_id:\"rs0\",members:[{_id:0,host:\"localhost:27017\"}] }).ok }' | grep 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+  redis-test:
+    image: redis:7-alpine
+    ports: ["127.0.0.1:6380:6379"]
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
